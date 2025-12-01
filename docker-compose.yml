@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres
+    container_name: local_pgdb_avance
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: sql_avance
+    restart: always
+    ports: 
+      - 5432:5432
+    volumes:
+      - local_pgdata_avance:/var/lib/postgresql
+    networks:
+      - db_network_avance
+
+  pgadmin:
+    depends_on: 
+      - db
+    image: dpage/pgadmin4
+    container_name: pgadmin_gui_avance
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - 8080:80
+    volumes:
+      - local_pgadmin_avance:/var/lib/pgadmin
+      - ./storage_pgadmin:/var/lib/pgadmin/storage
+    networks:
+      - db_network_avance
+
+volumes:
+  local_pgdata_avance:
+  local_pgadmin_avance:
+
+networks:
+  db_network_avance: {}
