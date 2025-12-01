@@ -53,3 +53,25 @@ where nb_commandes >= 2;
 
 
 -- 4
+CREATE INDEX idx_date_order
+	ON sql_avance2.tableau_de_bord (order_date);
+
+-- 5
+INSERT INTO sql_avance2.orders (order_id, customer_id, order_date, status)
+VALUES (7, 2, DATE '2024-05-04', 'COMPLETED');
+
+INSERT INTO sql_avance2.order_items (order_item_id, order_id, product_id, quantity, unit_price) VALUES
+    (8, 7, 3, 1, 89.00),
+    (9, 7, 4, 1, 19.90);
+
+SELECT * FROM sql_avance2.info_commandes
+WHERE status = 'COMPLETED'
+ORDER BY order_date;
+
+SELECT * FROM sql_avance2.tableau_de_bord ;
+
+REFRESH MATERIALIZED VIEW sql_avance2.tableau_de_bord ;
+
+SELECT * FROM sql_avance2.tableau_de_bord ;
+ -- il a fallu faire un refresh de la vue matérialisée pour mettre à jour les données
+ -- ce qui n'a pas été le cas pour la vue simple de la question 1
